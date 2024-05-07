@@ -4,93 +4,65 @@ from tkinter import messagebox
 import pymysql
 
 
-#======Overall UI===========#
 
-win=tk.Tk()
-win.geometry("1350x700+0+0")
+# =======================UI=====================================#
+
+def center_window(window, width, height):
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+
+    x = (screen_width / 2) - (width / 2)
+    y = (screen_height / 2) - (height / 2)
+    
+    window.geometry(f"{width}x{height}+{int(x)}+{int(y)}")
+
+win = tk.Tk()
 win.title("Employee Management System")
+center_window(win, 1350, 700)
 
-title_label=tk.Label(win, text="Employee Management System", font=("Arial",30,"bold"),border=12,relief=tk.GROOVE,bg="lightgrey")
-title_label.pack(side=tk.TOP, fill=tk.X)
+BG_COLOR = "#f0f0f0"
+FONT = ("Arial", 12)
 
-detail_frame=tk.LabelFrame(win,text="Enter Details",font=("Arial",20),bd=12,relief=tk.GROOVE,bg='lightgrey')
-detail_frame.place(x=20,y=90,width=420,height=580)
+main_frame = tk.Frame(win, bg=BG_COLOR)
+main_frame.pack(fill=tk.BOTH, expand=True)
 
-data_frame=tk.Frame(win, bd=12,bg="lightgrey",relief=tk.GROOVE)
-data_frame.place(x=475,y=90,width=870,height=580) 
+header_frame = tk.Frame(main_frame, bg="white", pady=20)
+header_frame.pack(fill=tk.X)
+
+title_label = tk.Label(header_frame, text="Employee Management System", font=("Arial", 24, "bold"), bg="white", padx=10)
+title_label.pack()
+
+detail_frame = tk.LabelFrame(main_frame, text="Enter Details", font=("Arial", 16, "bold"), bg=BG_COLOR, padx=20, pady=10)
+detail_frame.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=20, pady=20)
+
+data_frame = tk.Frame(main_frame, bg=BG_COLOR, padx=20, pady=10)
+data_frame.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
 
-#=========Variables================#
 
-idno =tk.StringVar()
+#=================Variables==================#
+
+idno = tk.StringVar()
 name = tk.StringVar()
-post = tk.StringVar ()
+post = tk.StringVar()
 department = tk.StringVar()
-joining = tk.StringVar ()
+joining = tk.StringVar()
 contact = tk.StringVar()
 address = tk.StringVar()
-gender =tk.StringVar()
-dob =tk.StringVar()
+gender = tk.StringVar()
+dob = tk.StringVar()
+search = tk.StringVar()
 
-search =tk.StringVar()
 
+labels = ["ID", "Name", "Post", "Department", "Joining Date", "Contact", "Address", "Gender", "D.O.B"]
+entries = [idno, name, post, department, joining, contact, address, gender, dob]
 
-#======Entry===========#
+for i, label_text in enumerate(labels):
+    label = tk.Label(detail_frame, text=label_text, font=FONT, bg=BG_COLOR)
+    label.grid(row=i, column=0, sticky="e", padx=5, pady=5)
 
-idno_lbl = tk.Label(detail_frame, text="ID ", font=("Arial", 15), bg="lightgrey")
-idno_lbl.grid(row=0, column=0,padx=2,pady=2)
-
-idno_ent = tk.Entry(detail_frame,bd=7,font=("arial",15),textvariable=idno)
-idno_ent.grid(row=0,column=1,padx=2,pady=2)
-
-name_lbl= tk.Label(detail_frame, text="Name ",font=('Arial',15),bg="lightgrey")
-name_lbl.grid(row =1,column= 0,padx =2,pady =2)
-
-name_ent = tk.Entry(detail_frame,bd=7, font=("arial",15),textvariable=name)
-name_ent.grid(row=1, column=1,padx=2,pady=2)
-
-post_lbl = tk.Label(detail_frame, text="Post ", font=("Arial",15), bg="lightgrey")
-post_lbl.grid(row=2,column=0, padx=2,pady=2)
-
-post_ent = tk.Entry(detail_frame,bd=7,font=("arial",15),textvariable=post)
-post_ent.grid(row=2,column=1,padx=2,pady=2)
-
-department_lbl= tk.Label (detail_frame, text="Department ",font=("Arial", 15),bg="lightgrey")
-department_lbl.grid(row=3, column=0,padx=2,pady=2)
-
-department_ent = tk.Entry(detail_frame,bd=7, font=("arial", 15),textvariable=department)
-department_ent.grid(row=3,column=1,padx=2,pady=2)
-
-doj_lbl = tk.Label (detail_frame, text="Joining Date ",font=('Arial',15), bg="lightgrey")
-doj_lbl.grid(row=4,column=0,padx=2,pady=2)
-
-doj_ent = tk.Entry(detail_frame,bd =7,font= ("arial",15),textvariable=joining)
-doj_ent.grid(row=4,column=1,padx=2,pady=2)
-
-contact_lbl= tk.Label (detail_frame, text="Contact ",font=("Arial", 15),bg="lightgrey")
-contact_lbl.grid(row=5, column=0,padx=2,pady=2)
-
-contact_ent = tk.Entry(detail_frame,bd=7, font=("arial", 15),textvariable=contact)
-contact_ent.grid(row=5,column=1,padx=2,pady=2)
-
-address_lbl= tk.Label (detail_frame, text="Address ",font=("Arial", 15),bg="lightgrey")
-address_lbl.grid(row=6, column=0,padx=2,pady=2)
-
-address_ent = tk.Entry(detail_frame,bd=7, font=("arial", 15),textvariable=address)
-address_ent.grid(row=6,column=1,padx=2,pady=2)
-
-gender_lbl = tk.Label(detail_frame,text="Gender ", font=("Arial", 15), bg="lightgrey")
-gender_lbl.grid(row=7,column=0,padx=2,pady=2)
-
-gender_ent = ttk.Combobox(detail_frame, font=("Arial",15), state="readonly",textvariable=gender)
-gender_ent['values'] = ("Male", "Female")
-gender_ent.grid(row=7,column=1,padx=2,pady=2)
-
-dob_lbl = tk.Label (detail_frame, text="D.O.B ",font=('Arial',15), bg="lightgrey")
-dob_lbl.grid(row=8,column=0,padx=2,pady=2)
-
-dob_ent = tk.Entry(detail_frame,bd =7,font= ("arial",15),textvariable=dob)
-dob_ent.grid(row=8,column=1,padx=2,pady=2)
+    entry = tk.Entry(detail_frame, font=FONT, textvariable=entries[i])
+    entry.grid(row=i, column=1, sticky="w", padx=5, pady=5)
 
 
 
@@ -169,7 +141,6 @@ def update_data():
     conn = pymysql.connect(host="localhost",user="root",password="",database="ems1")
     curr = conn.cursor()
     curr.execute("update data set name=%s, post=%s, department=%s, joining=%s, contact=%s, address=%s, gender=%s, dob=%s where idno=%s",(name.get(), post.get(), department.get(), joining.get(), contact.get(), address.get(), gender.get(), dob.get(), idno.get()))
-
     conn.commit()
     conn.close()
     fetch_data()
@@ -194,89 +165,64 @@ def search_data():
     conn.close()
 
 
-#======Buttons===========#
 
-btn_frame = tk.Frame (detail_frame,bg="lightgrey", bd=10, relief=tk.GROOVE)
-btn_frame.place(x=22,y=390,width=340,height=120)
+# =====================Buttons===================================#
 
-add_btn = tk.Button(btn_frame,bg="lightgrey", text="Add", bd=7,font=("Arial", 13),width=15,command=add_data)
-add_btn.grid(row=0,column=0,padx=2,pady=2)
+btn_frame = tk.Frame(detail_frame, bg=BG_COLOR)
+btn_frame.grid(row=len(labels)+1, columnspan=2, pady=10)
 
-update_btn = tk.Button(btn_frame,bg="lightgrey", text="Update", bd=7, font=("Arial", 13), width=15, command=update_data)
-update_btn.grid(row=0,column=1,padx=3,pady=2)
+btn_texts = ["Add", "Update", "Delete", "Clear"]
+commands = [add_data, update_data, delete_data, clear_data]
 
-delete_btn =tk.Button(btn_frame,bg ="lightgrey", text= "Delete", bd= 7,font= ("Arial", 13), width= 15, command=delete_data)
-delete_btn.grid(row=1,column=0,padx=2,pady=2)
-
-clear_btn = tk.Button(btn_frame, bg="lightgrey", text="Clear",bd=7, font=("Arial", 13),width=15, command=clear_data)
-clear_btn.grid(row=1, column=1,padx=3,pady=2)
+for i, btn_text in enumerate(btn_texts):
+    btn = tk.Button(btn_frame, text=btn_text, font=FONT, width=10, command=commands[i])
+    btn.grid(row=0, column=i, padx=5)
 
 
 
-#=========Search===================#
+#=============================Search and show all button=====================================#
 
-search_frame = tk.Frame(data_frame, bg="lightgrey", bd=1, relief=tk.GROOVE)
-search_frame.pack(side=tk.TOP, fill=tk.X)
+search_frame = tk.Frame(data_frame, bg=BG_COLOR)
+search_frame.pack(side=tk.TOP, fill=tk.X, pady=10)
 
-search_lbl = tk.Label(search_frame, text="Search", bg="lightgrey", font=("Arial", 14))
-search_lbl.grid(row=0, column=0, padx=12, pady=2)
+search_entry = tk.Entry(search_frame, font=FONT, textvariable=search)
+search_entry.grid(row=0, column=0, padx=5, pady=5)
 
-search_entry = tk.Entry(search_frame, font=("Arial", 14), textvariable=search)
-search_entry.grid(row=0, column=1, padx=12, pady=2)
+search_btn = tk.Button(search_frame, text="Search", font=FONT, width=10, command=search_data)
+search_btn.grid(row=0, column=1, padx=5, pady=5)
 
-search_btn = tk.Button(search_frame, text="Search", font=("Arial", 13), bd=9, width=14, bg="lightgrey", command=search_data)
-search_btn.grid(row=0, column=2, padx=12, pady=2)
-
-show_all_btn = tk.Button(search_frame, text="Show All", font=("Arial", 13), bd=9, width=14, bg="lightgrey", command=fetch_data)
-show_all_btn.grid(row=0, column=3, padx=12, pady=2)
-
-#=======Database Frame ============#
-
-main_frame = tk.Frame(data_frame,bg="lightgrey",bd=11, relief=tk.GROOVE)
-main_frame.pack(fill=tk.BOTH, expand=True)
+show_all_btn = tk.Button(search_frame, text="Show All", font=FONT, width=10, command=fetch_data)
+show_all_btn.grid(row=0, column=2, padx=5, pady=5)
 
 
-y_scroll = tk.Scrollbar(main_frame, orient=tk.VERTICAL)
-x_scroll = tk.Scrollbar(main_frame, orient=tk.HORIZONTAL)
+
+#============================main database======================================#
+
+table_frame = tk.Frame(data_frame, bg=BG_COLOR)
+table_frame.pack(fill=tk.BOTH, expand=True)
+
+columns = ("ID", "Name", "Post", "Department", "Joining Date", "Contact", "Address", "Gender", "D.O.B")
+employee_table = ttk.Treeview(table_frame, columns=columns, show="headings")
+employee_table.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
 
-employee_table = ttk.Treeview(main_frame, columns= ("ID", "Name", "Post", "Department", "Joining Date", "Contact", "Address", "Gender", "D.O.B"),yscrollcommand= y_scroll.set, xscrollcommand= x_scroll.set)
 
-y_scroll.config(command=employee_table.yview)
-x_scroll.config(command=employee_table.xview)
+# =================================scoll bar=================================#
 
-y_scroll.pack(side=tk.RIGHT, fill=tk.Y)
-x_scroll.pack(side=tk.BOTTOM, fill=tk.X)
+vsb = ttk.Scrollbar(table_frame, orient="vertical", command=employee_table.yview)
+vsb.pack(side=tk.RIGHT, fill='y')
 
-employee_table.heading("ID", text="ID")
-employee_table.heading("Name", text= "Name")
-employee_table.heading("Post", text="Post")
-employee_table.heading("Department", text="Department")
-employee_table.heading("Joining Date", text="Joining Date")
-employee_table.heading("Contact", text="Contact")
-employee_table.heading("Address", text="Address")
-employee_table.heading("Gender", text="Gender")
-employee_table.heading("D.O.B", text="D.O.B")
+hsb = ttk.Scrollbar(data_frame, orient="horizontal", command=employee_table.xview)
+hsb.pack(side=tk.BOTTOM, fill='x')
 
+employee_table.configure(yscrollcommand=vsb.set, xscrollcommand=hsb.set)
 
-employee_table['show']= 'headings'
+for col in columns:
+    employee_table.heading(col, text=col)
+    employee_table.column(col, width=100, anchor="center")
 
-employee_table.column("ID", width=100)
-employee_table.column("Name", width=100)
-employee_table.column("Post", width=150)
-employee_table.column("Department", width=150)
-employee_table.column("Joining Date", width=100)
-employee_table.column("Contact", width=100)
-employee_table.column("Address", width=150)
-employee_table.column("Gender", width=100)
-employee_table.column("D.O.B", width=100)
-
-employee_table.pack(fill=tk.BOTH, expand=True)
-
+employee_table.bind("<ButtonRelease-1>", lambda event: get_cursor(event))
 
 fetch_data()
-
-employee_table.bind("<ButtonRelease-1>", get_cursor)
-
 
 win.mainloop()
