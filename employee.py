@@ -14,10 +14,10 @@ title_label=tk.Label(win, text="Employee Management System", font=("Arial",30,"b
 title_label.pack(side=tk.TOP, fill=tk.X)
 
 detail_frame=tk.LabelFrame(win,text="Enter Details",font=("Arial",20),bd=12,relief=tk.GROOVE,bg='lightgrey')
-detail_frame.place(x=20,y=90,width=420,height=575)
+detail_frame.place(x=20,y=90,width=420,height=580)
 
 data_frame=tk.Frame(win, bd=12,bg="lightgrey",relief=tk.GROOVE)
-data_frame.place(x=475,y=90,width=810,height=575)  
+data_frame.place(x=475,y=90,width=870,height=580) 
 
 
 #=========Variables================#
