@@ -1,6 +1,7 @@
 Built an Employee Management System App with Python, pymysql, tkinter, MySQL, phpmyadmin and XAMPP Control Panel.
 
 
-![Screenshot 2024-05-08 031456](https://github.com/dnyaneshpatil123/employee-management-system/assets/124128769/236ca1a1-ad51-4514-ab6d-3b32f56d33e7)
-![Screenshot 2024-05-08 031747](https://github.com/dnyaneshpatil123/employee-management-system/assets/124128769/fe325db1-1257-4187-b2f6-d4cc04c9a971)
+![Screenshot 2024-05-08 041247](https://github.com/dnyaneshpatil123/employee-management-system/assets/124128769/1410e40d-bb33-4a60-9d7b-c5716f018484)
+
+![Screenshot 2024-05-08 041356](https://github.com/dnyaneshpatil123/employee-management-system/assets/124128769/369ba628-3e7a-491d-8618-9e9e02d3e203)
 
